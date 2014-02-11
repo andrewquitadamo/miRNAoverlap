@@ -14,11 +14,9 @@ sub TCGA_hier()
 
 	my %miRNA;
 	my @temp;
-	my @miRNA;
 	foreach(@file)
 	{
 		@temp = split("\t", $_);
-		#push(@miRNA,@temp[0]);
 		$miRNA{lc(@temp[0])}++;
 	}
 
@@ -29,7 +27,7 @@ sub TCGA_hier()
 
 	while ( my ($key, $value) = each(%overlap) )            
         {
-                print $key . "=>" . $value . "\n";
+                #print $key . "=>" . $value . "\n";
         }
 }
 
@@ -41,16 +39,33 @@ sub TCGA_NMF()
 
         shift(@file);
 
+	my %miRNA;
         my @temp;
-        my @miRNA;
         foreach(@file)
         {
                 @temp = split("\t", $_);
-                push(@miRNA,@temp[0]);
+        	$miRNA{lc(@temp[0])}++;
+	}
+	
+        while ( my ($key) = each(%miRNA) )            
+        {
+                $overlap{$key}++;
         }
 
-        print "@miRNA";
+        while ( my ($key, $value) = each(%overlap) )
+        {
+                print $key . "=>" . $value . "\n";
+        }	
+}
+
+sub marchini()
+{
+        open(FILE, "miRNA-initial.csv") || die "Couldn't open file:  miRNA-initial.csv";
+        my @file = <FILE>;
+        close FILE;
+
+        shift(@file);
 }
 
 TCGA_hier;
-#TCGA_NMF;
+TCGA_NMF;
