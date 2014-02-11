@@ -81,6 +81,36 @@ sub marchini()
 
         while ( my ($key, $value) = each(%overlap) )
         {
+                #print $key . "=>" . $value . "\n";
+        }
+}
+
+sub HMDD2()
+{
+        open(FILE, "HMDD2") || die "Couldn't open file:  HMDD2";
+        my @file = <FILE>;
+        close FILE;
+
+        shift(@file);
+
+        my %miRNA;
+        my @temp;
+        foreach(@file)
+	{
+		@temp = split("\t",$_);
+		if (index(@temp[2], "Ovarian") != -1) 
+		{
+			$miRNA{lc(@temp[1])}++;
+		}
+	}
+
+	        while ( my ($key) = each(%miRNA) )
+        {
+                $overlap{$key}++;
+        }
+
+        while ( my ($key, $value) = each(%overlap) )
+        {
                 print $key . "=>" . $value . "\n";
         }
 }
@@ -88,3 +118,4 @@ sub marchini()
 TCGA_hier;
 TCGA_NMF;
 marchini;
+HMDD2;
