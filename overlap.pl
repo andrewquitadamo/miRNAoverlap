@@ -54,7 +54,7 @@ sub TCGA_NMF()
 
         while ( my ($key, $value) = each(%overlap) )
         {
-                print $key . "=>" . $value . "\n";
+                #print $key . "=>" . $value . "\n";
         }	
 }
 
@@ -65,7 +65,26 @@ sub marchini()
         close FILE;
 
         shift(@file);
+
+	my %miRNA;
+	my @temp;
+	foreach(@file)
+	{
+		@temp = split(",",$_);
+		$miRNA{lc(@temp[0])}++;
+	}
+
+        while ( my ($key) = each(%miRNA) )
+        {
+                $overlap{$key}++;
+        }
+
+        while ( my ($key, $value) = each(%overlap) )
+        {
+                print $key . "=>" . $value . "\n";
+        }
 }
 
 TCGA_hier;
 TCGA_NMF;
+marchini;
