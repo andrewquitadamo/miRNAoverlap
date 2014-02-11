@@ -12,19 +12,25 @@ sub TCGA_hier()
 
 	shift(@file);
 
+	my %miRNA;
 	my @temp;
 	my @miRNA;
 	foreach(@file)
 	{
 		@temp = split("\t", $_);
 		#push(@miRNA,@temp[0]);
-		$overlap{lc(@temp[0])}++;
+		$miRNA{lc(@temp[0])}++;
 	}
 
-	while ( my ($key, $value) = each(%overlap) ) 
+	while ( my ($key) = each(%miRNA) ) 
 	{
-		print "$key => $value\n";
+		$overlap{$key}++;
     	}
+
+	while ( my ($key, $value) = each(%overlap) )            
+        {
+                print $key . "=>" . $value . "\n";
+        }
 }
 
 sub TCGA_NMF()
