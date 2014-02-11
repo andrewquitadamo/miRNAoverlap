@@ -142,7 +142,7 @@ sub miR2Disease()
 
         while ( my ($key, $value) = each(%overlap) )
         {
-                print $key . "=>" . $value . "\n";
+                #print $key . "=>" . $value . "\n";
         }
 }
 
@@ -173,6 +173,36 @@ sub miRCancer()
 
         while ( my ($key, $value) = each(%overlap) )
         {
+                #print $key . "=>" . $value . "\n";
+        }
+}
+
+sub miRdSNP()
+{
+        open(FILE, "mirdsnp-snp-mir-distance.csv") || die "Couldn't open file:  mirdsnp-snp-mir-distance.csv";
+        my @file = <FILE>;
+        close FILE;
+
+        shift(@file);
+
+        my %miRNA;
+        my @temp;
+        foreach(@file)
+        {
+                @temp = split(",",$_);
+		if (index(@temp[4], "Ovarian") != -1)
+                {
+                        $miRNA{lc(@temp[2])}++;
+                }
+        }
+
+                while ( my ($key) = each(%miRNA) )
+        {
+                $overlap{$key}++;
+        }
+
+        while ( my ($key, $value) = each(%overlap) )
+        {
                 print $key . "=>" . $value . "\n";
         }
 }
@@ -183,3 +213,4 @@ marchini;
 HMDD2;
 miR2Disease;
 miRCancer;
+miRdSNP;
