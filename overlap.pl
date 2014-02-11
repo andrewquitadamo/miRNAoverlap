@@ -203,10 +203,39 @@ sub miRdSNP()
 
         while ( my ($key, $value) = each(%overlap) )
         {
-                print $key . "=>" . $value . "\n";
+                #print $key . "=>" . $value . "\n";
         }
 }
 
+sub Phenomir2()
+{
+        open(FILE, "Phenomir2.tbl") || die "Couldn't open file:  Phenomir2.tbl";
+        my @file = <FILE>;
+        close FILE;
+
+        shift(@file);
+
+        my %miRNA;
+        my @temp;
+        foreach(@file)
+        {
+                @temp = split("\t",$_);
+                if (index(@temp[2], "Ovarian") != -1)
+                {
+			$miRNA{lc(@temp[5])}++; 
+                }
+        }
+
+                while ( my ($key) = each(%miRNA) )
+        {
+                $overlap{$key}++;
+        }
+
+        while ( my ($key, $value) = each(%overlap) )
+        {
+                print $key . "=>" . $value . "\n";
+        }
+}
 TCGA_hier;
 TCGA_NMF;
 marchini;
@@ -214,3 +243,4 @@ HMDD2;
 miR2Disease;
 miRCancer;
 miRdSNP;
+Phenomir2;
