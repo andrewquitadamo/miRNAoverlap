@@ -111,6 +111,37 @@ sub HMDD2()
 
         while ( my ($key, $value) = each(%overlap) )
         {
+                #print $key . "=>" . $value . "\n";
+        }
+}
+
+sub miR2Disease()
+{
+        open(FILE, "miRmasterlist") || die "Couldn't open file:  miRmasterlist";
+        my @file = <FILE>;
+        close FILE;
+
+        shift(@file);
+
+        my %miRNA;
+        my @temp;
+        foreach(@file)
+        {
+                @temp = split("\t",$_);
+                if (index(@temp[1], "ovarian") != -1)
+                {
+			#print 
+                        $miRNA{lc(@temp[0])}++;
+                }
+        }
+
+                while ( my ($key) = each(%miRNA) )
+        {
+                $overlap{$key}++;
+        }
+
+        while ( my ($key, $value) = each(%overlap) )
+        {
                 print $key . "=>" . $value . "\n";
         }
 }
@@ -119,3 +150,4 @@ TCGA_hier;
 TCGA_NMF;
 marchini;
 HMDD2;
+miR2Disease;
