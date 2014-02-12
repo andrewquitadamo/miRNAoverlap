@@ -233,6 +233,36 @@ sub Phenomir2()
 
         while ( my ($key, $value) = each(%overlap) )
         {
+                #print $key . "=>" . $value . "\n";
+        }
+}
+
+sub miRPD_croft()
+{
+        open(FILE, "croft_full.tsv") || die "Couldn't open file:  croft_full.tsv";
+        my @file = <FILE>;
+        close FILE;
+
+        shift(@file);
+
+        my %miRNA;
+        my @temp;
+        foreach(@file)
+        {
+                @temp = split("\t",$_);
+                if (index(@temp[1], "DOID:2394") != -1)
+                {
+                        $miRNA{lc(@temp[0])}++;
+                }
+        }
+
+                while ( my ($key) = each(%miRNA) )
+        {
+                $overlap{$key}++;
+        }
+
+        while ( my ($key, $value) = each(%overlap) )
+        {
                 print $key . "=>" . $value . "\n";
         }
 }
@@ -244,3 +274,4 @@ miR2Disease;
 miRCancer;
 miRdSNP;
 Phenomir2;
+miRPD_croft;
