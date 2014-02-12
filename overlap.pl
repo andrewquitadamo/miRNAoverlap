@@ -266,6 +266,36 @@ sub miRPD_croft()
                 print $key . "=>" . $value . "\n";
         }
 }
+
+sub miRPD_miranda()
+{
+        open(FILE, "miranda_full.tsv") || die "Couldn't open file:  miranda_full.tsv";
+        my @file = <FILE>;
+        close FILE;
+
+        shift(@file);
+
+        my %miRNA;
+        my @temp;
+        foreach(@file)
+        {   
+                @temp = split("\t",$_);
+                if (index(@temp[1], "DOID:2394") != -1) 
+                {   
+                        $miRNA{lc(@temp[0])}++;
+                }   
+        }   
+
+                while ( my ($key) = each(%miRNA) )
+        {   
+                $overlap{$key}++;
+        }   
+
+        while ( my ($key, $value) = each(%overlap) )
+        {   
+                print $key . "=>" . $value . "\n";
+        }   
+}
 TCGA_hier;
 TCGA_NMF;
 marchini;
@@ -275,3 +305,4 @@ miRCancer;
 miRdSNP;
 Phenomir2;
 miRPD_croft;
+miRPD_miranda;
