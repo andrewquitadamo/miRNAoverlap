@@ -5,7 +5,7 @@
 my %overlap;
 my %overlap_names;
 
-my @simple_files=("miRNA-all-hierarchical.txt#\t#0","miRNA-all-NMF.txt#\t#0","miRNA-initial.csv#,#0");
+my @simple_files=("miRNA-all-hierarchical.txt#\t#0#TCGA-hierarchical","miRNA-all-NMF.txt#\t#0#TCGA-NMF","miRNA-initial.csv#,#0#Marchini");
 sub extract
 {
 	shift(@_);
@@ -13,6 +13,7 @@ sub extract
 	my $filename = @split[0];
 	my $sep = @split[1];
 	my @miRNA_index = @split[2];
+	my $name = @split[3];
 
         open(FILE, $filename) || die "Couldn't open file: " . $filename . "\n";
         my @file = <FILE>;
@@ -31,11 +32,11 @@ sub extract
         while ( my ($key) = each(%miRNA) )
         {
                 $overlap{$key}++;
-		$overlap_names{$key}=($overlap_names{$key} . " " . $filename);
+		$overlap_names{$key}=($overlap_names{$key} . " " . $name);
         }
 }
 
-my @search_files=("mirdsnp-snp-mir-distance.csv#,#4#2#Ovarian","miranda_full.tsv#\t#1#0#DOID:2394","croft_full.tsv#\t#1#0#DOID:2394","Phenomir2.tbl#\t#2#5#Ovarian","miRCancer.txt#\t#1#0#ovarian","miRmasterlist#\t#1#0#ovarian","HMDD2#\t#2#1#Ovarian");
+my @search_files=("mirdsnp-snp-mir-distance.csv#,#4#2#Ovarian#miRdSNP","miranda_full.tsv#\t#1#0#DOID:2394#miRPD-miranda","croft_full.tsv#\t#1#0#DOID:2394#miRPD-croft","Phenomir2.tbl#\t#2#5#Ovarian#Phenomir2","miRCancer.txt#\t#1#0#ovarian#miRCancer","miRmasterlist#\t#1#0#ovarian#miR2Disease","HMDD2#\t#2#1#Ovarian#HMDD2");
 sub search
 {
 	shift(@_);
@@ -45,8 +46,7 @@ sub search
 	my $search_index = @split[2];
 	my $miRNA_index = @split[3];
 	my $search = @split[4];
-
-	#print $filename . "\t" . $sep . "\t" . $search_index . "\t" . $miRNA_index . "\t" . $search . "\n";
+	my $name = @split[5];
 	
 	open(FILE, $filename) || die "Couldn't open file: " . $filename;
        	my @file = <FILE>;
@@ -68,7 +68,7 @@ sub search
         while ( my ($key) = each(%miRNA) )
        	{
                	$overlap{$key}++;
-		$overlap_names{$key}=($overlap_names{$key} . " " . $filename);
+		$overlap_names{$key}=($overlap_names{$key} . " " . $name);
        	}
 }
 
