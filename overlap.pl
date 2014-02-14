@@ -3,6 +3,7 @@
 #use warnings;
 
 my %overlap;
+my %overlap_names;
 
 my @simple_files=("miRNA-all-hierarchical.txt#\t#0","miRNA-all-NMF.txt#\t#0","miRNA-initial.csv#,#0");
 sub extract
@@ -30,6 +31,7 @@ sub extract
         while ( my ($key) = each(%miRNA) )
         {
                 $overlap{$key}++;
+		$overlap_names{$key}=($overlap_names{$key} . " " . $filename);
         }
 }
 
@@ -66,6 +68,7 @@ sub search
         while ( my ($key) = each(%miRNA) )
        	{
                	$overlap{$key}++;
+		$overlap_names{$key}=($overlap_names{$key} . " " . $filename);
        	}
 }
 
@@ -79,7 +82,23 @@ foreach(@simple_files)
 	extract($_);
 }
 
+my $output_num;
+my $output_names;
+
 while ( my ($key, $value) = each(%overlap) )
 {
-	print $key . "=>" . $value . "\n";
+	$output_num.= $key . "=>" . $value . "\n";
 }
+
+while ( my ($key, $value) = each(%overlap_names) )
+{
+	$output_names.= $key . "=>" . $value . "\n";
+}
+
+open FILE, ">"."miRNA_overlap_number" or die $!;
+print FILE $output_num;
+close FILE;
+
+open FILE, ">"."miRNA_overlap_names" or die $!; 
+print FILE $output_names;
+close FILE;
