@@ -7,15 +7,15 @@ which database the miRNA was found in. All the files should be in the Dropbox fo
 
 The databases/files required are:
 
-Database    - File
-__________________________________________
-miRdSNP     - mirdsnp-snp-mir-distance.csv
-miRPD       - miranda_full.tsv
-            - croft_full.tsv
-Phenomir2   - Phenomir2.tbl
-miRCancer   - miRCancer.txt
-miR2Disease - miRmasterlist
-HMDD2       - HMDD2
-TCGA        - miRNA-all-hierarchical.txt
-            - miRNA-all-NMF.txt
-Marchini    - miRNA-initial.csv
+|Database    |File                            |
+|------------|--------------------------------|
+|miRdSNP     |mirdsnp-snp-mir-distance.csv    |
+|miRPD       |miranda_full.tsv                |
+|            |croft_full.tsv                  |
+|Phenomir2   |Phenomir2.tbl                   |
+|miRCancer   |miRCancer.txt                   |
+|miR2Disease |miRmasterlist                   |
+|HMDD2       |HMDD2                           |
+|TCGA        |miRNA-all-hierarchical.txt      |
+|            |miRNA-all-NMF.txt               |
+|Marchini    |miRNA-initial.csv               |
