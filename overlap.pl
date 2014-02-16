@@ -85,14 +85,10 @@ foreach(@simple_files)
 my $output_num;
 my $output_names;
 
-while ( my ($key, $value) = each(%overlap) )
+foreach (sort {$overlap{$b} <=> $overlap{$a}} keys %overlap) 
 {
-	$output_num.= $key . "=>" . $value . "\n";
-}
-
-while ( my ($key, $value) = each(%overlap_names) )
-{
-	$output_names.= $key . "=>" . $value . "\n";
+	$output_num.= "$_: $overlap{$_}\n";
+	$output_names.="$_: $overlap_names{$_}\n";
 }
 
 open FILE, ">"."miRNA_overlap_number" or die $!;
