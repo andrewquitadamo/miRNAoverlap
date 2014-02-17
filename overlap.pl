@@ -87,8 +87,32 @@ my $output_names;
 
 foreach (sort {$overlap{$b} <=> $overlap{$a}} keys %overlap) 
 {
-	$output_num.= "$_: $overlap{$_}\n";
-	$output_names.="$_: $overlap_names{$_}\n";
+	$output_num.= "$_\t$overlap{$_}\n";
+	$output_names.="$_\t $overlap_names{$_}\n";
+}
+
+my %foundmiRNA;
+
+$found_filename = "onlyCISresults.lm.quantile.normalized.FDRpoint1.txt";
+
+open(FILE, $found_filename) || die "Couldn't open file: " . $found_filename . "\n";
+my @file = <FILE>;
+close FILE;
+
+shift(@file);
+
+foreach(@file)
+{
+        my @temp = split("\t", $_);
+        $foundmiRNA{lc(@temp[0])}++;
+        #print lc(@temp[0]) . "\n";
+}
+
+@keys = keys %foundmiRNA;
+
+foreach(@keys)
+{
+	print "$_\t$overlap_names{$_}\n";
 }
 
 open FILE, ">"."miRNA_overlap_number" or die $!;
