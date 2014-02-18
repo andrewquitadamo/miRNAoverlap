@@ -124,5 +124,5 @@ print FILE $output_names;
 close FILE;
 
 open FILE, ">"."miRNA_overlap" or die $!;
-print FILE $output_names;
+print FILE $output_overlap;
 close FILE;
