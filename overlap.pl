@@ -105,14 +105,14 @@ foreach(@file)
 {
         my @temp = split("\t", $_);
         $foundmiRNA{lc(@temp[0])}++;
-        #print lc(@temp[0]) . "\n";
 }
 
 @keys = keys %foundmiRNA;
 
+my $output_overlap;
 foreach(@keys)
 {
-	print "$_\t$overlap_names{$_}\n";
+	$output_overlap.= "$_\t$overlap_names{$_}\n";
 }
 
 open FILE, ">"."miRNA_overlap_number" or die $!;
@@ -120,5 +120,9 @@ print FILE $output_num;
 close FILE;
 
 open FILE, ">"."miRNA_overlap_names" or die $!; 
+print FILE $output_names;
+close FILE;
+
+open FILE, ">"."miRNA_overlap" or die $!;
 print FILE $output_names;
 close FILE;
