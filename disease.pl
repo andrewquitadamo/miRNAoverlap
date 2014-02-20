@@ -40,11 +40,38 @@ foreach(@search_files)
 	{
 		my @temp = split($sep,$_);
 		my $j=0;
+		my $up_expression;
+		my $down_expression;
+		my $expression;
 		foreach(@keys)
 		{
-			if((@temp[$miRNA_index] eq $_) && (index(@temp[$search_index], $search) == -1))
+			my $key = $_;
+			if((lc(@temp[$miRNA_index]) eq $_) && (index(@temp[$search_index], $search) == -1) && (@temp[$search_index] ne ""))
 			{
-				$overlap{$_}=$overlap{$_}.= $_ . "\t" . @file[$i] . "\n"; 
+				foreach(@temp)
+				{
+					if( (index($_,"overexpression") != -1) || (index($_,"upregulat") !=-1))
+					{
+						$up_expression = $_;
+						$overlap{$key}=$overlap{$key}.=  $key . "\t" . "@temp[$search_index]" . "\t" . "0\n";
+					}
+					elsif( (index($_,"downregulat") != -1))
+					{
+						$down_expresson = $_;
+						$overlap{$key}=$overlap{$key}.=  $key . "\t" . "@temp[$search_index]" . "\t" . "1\n";
+					}
+					elsif( (index($_,"expression") != -1))
+					{
+						$expression = $_;
+						$overlap{$key}=$overlap{$key}.=  $key . "\t" . "@temp[$search_index]" .  "\t" . "2\n";
+					}
+					else
+					{
+						$overlap{$key}=$overlap{$key}.=  $key . "\t" . "@temp[$search_index]" . "\t3\n";
+					}
+				}
+				#$overlap{$_}=$overlap{$_}.=  $_ . "\t" . @temp[$search_index] . "\t" . $expression . "\n"; 
+				$up_expression = $down_expression = $expression = "";
 			}
 		}
 		$i++;
@@ -55,6 +82,6 @@ while ( my ($key, $value) = each(%overlap) ) {
 	$output.= "$value\n";
 }
 
-open FILE, ">"."disease_overlap" or die $!;
+open FILE, ">"."disease_overlap.txt" or die $!;
 print FILE $output;
 close FILE;
